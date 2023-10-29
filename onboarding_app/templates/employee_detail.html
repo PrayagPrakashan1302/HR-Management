@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Employee Details{% endblock %}
+
+{% block content %}
+    <h1>Employee Details</h1>
+    <p>Name: {{ employee.first_name }} {{ employee.last_name }}</p>
+    <p>Email: {{ employee.email }}</p>
+    <p>Department: {{ employee.department }}</p>
+    <p>Start Date: {{ employee.start_date }}</p>
+    <p>Status: {% if employee.is_onboarded %} Onboarded {% else %} Not Onboarded {% endif %}</p>
+
+    {% if not employee.is_onboarded %}
+        <a href="{% url 'onboard_employee' employee.id %}" class="btn btn-success">Mark as Onboarded</a>
+    {% endif %}
+{% endblock %}

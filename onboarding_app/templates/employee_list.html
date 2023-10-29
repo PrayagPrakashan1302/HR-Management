@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Employee List{% endblock %}
+
+{% block content %}
+<script>
+    function OnboardingUpdate(ele){
+        const emp_id = ele.value;
+        const is_checked = ele.checked;
+        $.ajax({
+            type: 'GET',
+            url: '{% url "onboard_check" %}', // Replace with the actual URL of your view
+            data: {"is_checked":is_checked, "emp_id":emp_id},
+            success: function(response){
+                alert(response.message); // Display the response
+            },
+            error: function(response){
+                alert('Error occurred!');
+            }
+        });
+    }
+</script>
+
+
+    <h1>Employee List</h1>
+    
+    <ul class="list-group">
+        {% for employee in employees %}
+            <li class="list-group-item">
+                <input type="checkbox" class="pe-1" value="{{employee.id}}" onchange="OnboardingUpdate(this)" {% if employee.is_onboarded  %}checked{% endif %}>
+                <a href="{% url 'employee_detail' employee.id %}">
+                    {{ employee.first_name }} {{ employee.last_name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'employee_add' %}" class="btn btn-primary mt-3">Add Employee</a>
+
+    {% comment %} <script>
+        function OnboardingUpdate(ele){
+            const emp_id = ele.value;
+            const is_checked = ele.checked;
+            $.ajax({
+                type: 'GET',
+                url: '{% url "onboard_check" %}', // Replace with the actual URL of your view
+                data: {"is_checked":is_checked, "emp_id":emp_id}
+                success: function(response){
+                    alert(response.message); // Display the response
+                },
+                error: function(response){
+                    alert('Error occurred!');
+                }
+            });
+           
+        }
+    </script> {% endcomment %}
+{% endblock %}
+
+
